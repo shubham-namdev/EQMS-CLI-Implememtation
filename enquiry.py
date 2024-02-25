@@ -2,9 +2,8 @@ import os
 import time
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
-
-# Construct the path to your file
 enqFilePath = os.path.join(current_dir, "enquiry.txt")
+
 #enqFilePath = "D:\VSCODE\Project\enquiry.txt"
 
 def clear():
@@ -24,11 +23,13 @@ def get_lastEnqNo() -> int:
     file = open(file=enqFilePath, mode='r')
     for line in file:
         mapping = toDict(line)
-        ids.append(int(mapping['Enq ID']))
-    
+        ids.append(int(mapping.get('Enq ID')))
+    file.close()
+    if not ids:
+        return 0
     return max(ids)
 
-def printEnquiry(enqno = None) -> None:
+def printEnquiry(enqno = None) -> int:
     clear()
     print('='*25 + '\n' + f":: ENQUIRY NO - {enqno} ::" + '\n' + '='*25)
 
@@ -78,8 +79,31 @@ Please Choose -
         time.sleep(1.5)
         clear()
         list_enquiry()
-    
+
 def register_enquiry():
+
+    def add_source() -> str:
+        code = int(input(
+"""Enter Source (select from below options) - 
+1. Walk In
+2. Seminar
+3. Website
+4. Exhibition
+5. Paper Advertisement
+>> """))
+        if code == 1:
+            return "Walk In"
+        elif code == 2:
+            return "Seminar"
+        elif code == 3:
+            return "Website"
+        elif code == 4:
+            return "Exhibition"
+        elif code == 5:
+            return "Paper Advertisement"
+        else:
+            print('='*25 + '\n' + ":: INVALID RESPONSE ::" + '\n' + '='*25)
+            add_source()
 
     print('='*25 + '\n' + ":: ENQUIRY REGISTERATION ::" + '\n' + '='*25)
 
@@ -95,9 +119,10 @@ def register_enquiry():
 
     emailId = input("enter your email id : ")
 
-    source = "online"
+    source = add_source()
 
     remarks = input("Write remark : ")
+
     enq_details = f"Enq ID :{enqid}, Customer Name :{customer_name}, Contact Person :{contact_Person}, Address :{address}, Telephone Number :{telephone_number}, Email :{emailId}, Source :{source}, Remarks :{remarks}"
 
     with open(file=enqFilePath, mode='a') as file:
@@ -117,9 +142,11 @@ def delete_enquiry():
     no = input("Enter the Enquiry No : ")
 
     if int(no) > int(get_lastEnqNo()):
-        print('='*25 + '\n' + ":: INVALID ENQUIRY NO ::" + '\n' + '='*25)
         clear()
-        delete_enquiry()
+        print('='*25 + '\n' + ":: INVALID ENQUIRY NO ::" + '\n' + '='*25)
+        time.sleep(1)
+        clear()
+        main_enquiry()
     else:
         print('='*25 + '\n' + F":: ENQUORY NO {no}::" + '\n' + '='*25)
         fl = printEnquiry(no)
@@ -175,5 +202,4 @@ def main_enquiry() -> None:
    
     if not exc :
         main_enquiry()
-
 

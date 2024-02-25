@@ -10,7 +10,6 @@ def clear():
 clear()
 
 class App:
-
     def run(self) :
         print("Welcome to our Website :)\n")
         print(
@@ -28,7 +27,7 @@ class App:
         elif ch == 2:
             clear()
             print("="*25)
-            product.add_product()
+            product.main_product()
         elif ch == 5:
             clear()
             print('='*30 + '\n' + ":: THANK YOU FOR VISITING ::" + '\n' + '='*30)
