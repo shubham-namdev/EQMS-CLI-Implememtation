@@ -1,6 +1,3 @@
-Certainly, here's the README.md file without the license section:
-
-```markdown
 # EQMS Lite CLI
 
 EQMS Lite CLI is a command-line interface (CLI) clone of the EQMS Lite app. It provides similar functionalities to the app, allowing users to manage product information and inquiries conveniently through the terminal.
