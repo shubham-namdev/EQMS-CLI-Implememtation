@@ -13,7 +13,7 @@ EQMS Lite CLI is a command-line interface (CLI) clone of the EQMS Lite app. It p
 1. Clone the repository:
 
    ```bash
-   git clone https://github.com/your-username/eqms-lite-cli.git
+   git clone https://github.com/shubham-namdev/eqms-lite-cli.git
    ```
 
 2. Navigate to the project directory:
