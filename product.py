@@ -1,21 +1,14 @@
 """
-THIS PART IS DONE
-No NEED to change ANYTHING
-
-~Shubham
+Contains Products Page functions. 
 """ 
 import os
 import time
+from utils import clear, color
 
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 
 productfilePath = os.path.join(current_dir, "products.txt")
-
-#productfilePath = "D:\VSCODE\Project\products.txt"
-
-def clear():
-    os.system('cls')
 
 
 def toDict(line : list) -> dict :
@@ -39,11 +32,28 @@ def get_ProcductNo() -> int:
 
 def delete_product() -> None:
     print('='*25 + '\n' + ":: DELETE Product ::" + '\n' + '='*25)
+    with open(file=productfilePath) as file:
+         for line in file:
+                mapping = toDict(line)
+                print(f"Prod No {mapping['Prod ID']} --> {mapping['Name']}")
+    print()
+    print("Enter * to exit")
+    print()
     no = input("Enter the Product No : ")
+    if no == '*':
+        clear()
+        color('green')
+        print('='*30 + '\n' + ":: REDIRECTING ::" + '\n' + '='*30)
+        time.sleep(1)
+        color('white')
+        clear()
 
-    if int(no) > int(get_ProcductNo()):
+    elif int(no) > int(get_ProcductNo()):
+        clear()
+        color('red')
         print('='*25 + '\n' + ":: INVALID PRODUCT NO ::" + '\n' + '='*25)
         time.sleep(1)
+        color('white')
         clear()
         main_product()
     else:
@@ -60,15 +70,24 @@ def delete_product() -> None:
                         if f'Prod ID :{no}' not in line:
                             # Write the line to the output file
                             output_file.write(line)
+                color('green')
                 print('='*25 + '\n' + F":: DELETED PRODUCT NO - {no} ::" + '\n' + '='*25)
-                time.sleep(1.5)
+                time.sleep(1)
+                color('white')
+                clear()
+            else:
+                clear()
+                color('green')
+                print('='*25 + '\n' + F":: CANCELED ::" + '\n' + '='*25)
+                time.sleep(1)
+                color('white')
                 clear()
 
 def print_product(prodno = None) -> int:
     clear()
-    print('='*25 + '\n' + f":: PRODUCT NO - {prodno} ::" + '\n' + '='*25)
 
     if prodno:
+        print('='*25 + '\n' + f":: PRODUCT NO - {prodno} ::" + '\n' + '='*25)
         with open(productfilePath, 'r') as file:
             f = True
             for line in file:
@@ -78,11 +97,15 @@ def print_product(prodno = None) -> int:
                         print(f"{k}" + " "*(20 - len(k)) + ':' + f"{v}")
                     f = False
             if f:
-                print("Product Number Not Found :(")
+                clear()
+                color('red')
+                print('='*25 + '\n' + f":: PRODUCT NO NOT FOUND ::" + '\n' + '='*25)
                 time.sleep(1)
+                color('white')
                 clear()
                 return 1
     else:
+        print('='*25 + '\n' + f":: ALL PRODUCTS ::" + '\n' + '='*25)
         with open(productfilePath, 'r') as file:
             for line in file:
                 mapping = toDict(line)
@@ -103,6 +126,10 @@ Please Choose -
     if ch == 1:
         print_product()
     elif ch == 2:
+        with open(file=productfilePath) as file:
+         for line in file:
+                mapping = toDict(line)
+                print(f"Prod No {mapping['Prod ID']} --> {mapping['Name']}")
         prodNo = input("Please Enter the Product Number : ")
         print_product(prodNo)
         list_product()
@@ -110,8 +137,10 @@ Please Choose -
         clear()
     else :
         clear()
+        color('red')
         print('='*25 + '\n' + ":: INVALID CHOICE ::" + '\n' + '='*25)
         time.sleep(1.5)
+        color('white')
         clear()
         list_product()
 
@@ -128,16 +157,23 @@ def add_product() -> None:
     with open(file=productfilePath, mode='a') as file :
         file.write(product_detail + '\n')
         file.flush()
-        print("Product added successfully!") 
-        
+        clear()
+        color('green')
+        print('='*25 + '\n' + f":: PRODUCT ADDED SUCCESSFULLY ::" + '\n' + '='*25)
+        time.sleep(1)
+        color('white')
+        clear()
+
     ch = input("Do you wanna add more product (y/n) : ")
     if ch.lower() == 'y':
         clear()
         add_product()
     else :
         clear()
+        color('green')
         print('='*30 + '\n' + ":: THANK YOU ::" + '\n' + '='*30)
         time.sleep(1)
+        color('white')
         clear()
 
 def main_product() :
@@ -164,14 +200,19 @@ def main_product() :
         list_product()
     elif ch == 5:
         clear()
+        color('green')
         print('='*30 + '\n' + ":: THANK YOU ::" + '\n' + '='*30)
         time.sleep(1)
+        color('white')
         clear()
         exc = 1
     else:
         clear()
+        color('red')
+
         print('='*30 + '\n' + ":: INVALID CHOICE ::" + '\n' + '='*30)
         time.sleep(1)
+        color('white')
         clear()
         main_product()   
    

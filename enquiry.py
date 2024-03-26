@@ -1,13 +1,13 @@
+"""
+Contains Enquiry Page functions. 
+"""
+
 import os
 import time
+from utils import clear, color
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 enqFilePath = os.path.join(current_dir, "enquiry.txt")
-
-#enqFilePath = "D:\VSCODE\Project\enquiry.txt"
-
-def clear():
-    os.system('cls')
 
 def toDict(line : str) -> dict :
     line = line.split(sep=',')
@@ -43,8 +43,11 @@ def printEnquiry(enqno = None) -> int:
                         print(f"{k}" + " "*(20 - len(k)) + ':' + f"{v}")
                     f = False
             if f:
-                print("Enquiry Number Not Found :(")
+                clear()
+                color('red')
+                print('='*40 + '\n' + f":: ENQUIRY NO - {enqno} NOT FOUND ::" + '\n' + '='*40)
                 time.sleep(1)
+                color('white')
                 clear()
                 return 1
     else:
@@ -75,8 +78,10 @@ Please Choose -
         clear()
     else :
         clear()
+        color('red')
         print('='*25 + '\n' + ":: INVALID CHOICE ::" + '\n' + '='*25)
-        time.sleep(1.5)
+        time.sleep(1)
+        color('white')
         clear()
         list_enquiry()
 
@@ -102,8 +107,14 @@ def register_enquiry():
         elif code == 5:
             return "Paper Advertisement"
         else:
+            clear()
+            color('red')
             print('='*25 + '\n' + ":: INVALID RESPONSE ::" + '\n' + '='*25)
+            time.sleep(1)
+            color('white')
+            clear()
             add_source()
+
 
     print('='*25 + '\n' + ":: ENQUIRY REGISTERATION ::" + '\n' + '='*25)
 
@@ -128,7 +139,12 @@ def register_enquiry():
     with open(file=enqFilePath, mode='a') as file:
         file.write(enq_details + '\n')
         file.flush
-        print("Enquiry added Successfully :)")
+        clear()
+        color('green')
+        print('='*35 + '\n' + ":: ENQUIRY ADDED SUCCESSFULLY ::" + '\n' + '='*35)
+        time.sleep(1)
+        clear()
+        color('white')
     
     ch = input("Do you wanna add more enquiries (y/n) : ")
     if ch.lower() == 'y':
@@ -139,15 +155,32 @@ def register_enquiry():
 
 def delete_enquiry():
     print('='*25 + '\n' + ":: DELETE ENQUIRY ::" + '\n' + '='*25)
+    
+    with open(file=enqFilePath) as file:
+         for line in file:
+                mapping = toDict(line)
+                print(f"Enq No {mapping['Enq ID']} --> {mapping['Customer Name']}")
+    print()
+    print("Enter * to exit")
+    print()
     no = input("Enter the Enquiry No : ")
-
-    if int(no) > int(get_lastEnqNo()):
+    if no == '*':
         clear()
+        color('green')
+        print('='*30 + '\n' + ":: REDIRECTING ::" + '\n' + '='*30)
+        time.sleep(1)
+        color('white')
+        clear()
+    elif int(no) > int(get_lastEnqNo()):
+        clear()
+        color('red')
         print('='*25 + '\n' + ":: INVALID ENQUIRY NO ::" + '\n' + '='*25)
         time.sleep(1)
+        color('white')
         clear()
         main_enquiry()
     else:
+        
         print('='*25 + '\n' + F":: ENQUORY NO {no}::" + '\n' + '='*25)
         fl = printEnquiry(no)
         if not fl:
@@ -161,11 +194,14 @@ def delete_enquiry():
                         if f'Enq ID :{no}' not in line:
                             # Write the line to the output file
                             output_file.write(line)
+                color('green')
                 print('='*25 + '\n' + F":: DELETED ENQUIRY NO - {no} ::" + '\n' + '='*25)
-                time.sleep(1.5)
+                time.sleep(1)
+                color('white')
                 clear()
 
 def main_enquiry() -> None:
+    color('white')
     exc = 0
     print('='*25 + '\n' + ":: ENQUIRY PAGE ::" + '\n' + '='*25)
     print(
@@ -177,6 +213,7 @@ def main_enquiry() -> None:
 5. Main Page
 ======================
 >> """, end="")
+    
     ch = int(input())
     if ch == 1:
         clear()
@@ -189,16 +226,19 @@ def main_enquiry() -> None:
         list_enquiry()
     elif ch == 5:
         clear()
+        color('green')
         print('='*30 + '\n' + ":: THANK YOU ::" + '\n' + '='*30)
         time.sleep(1)
+        color('white')
         clear()
         exc = 1
     else:
         clear()
+        color('red')
         print('='*30 + '\n' + ":: INVALID CHOICE ::" + '\n' + '='*30)
         time.sleep(1)
-        clear()
-        main_enquiry()   
+        color('white')
+        clear() 
    
     if not exc :
         main_enquiry()
